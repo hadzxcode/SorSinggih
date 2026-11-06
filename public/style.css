@@ -33,7 +33,9 @@ img{max-width:100%}
 .btn-cta:active{transform:translateY(3px);box-shadow:0 2px 0 var(--cta-deep)}
 .welcome .w-actions{position:absolute;left:24px;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));display:flex;align-items:stretch;gap:12px}
 .welcome .btn-cta{flex:1;margin:0}
-.btn-cta.sm{font-size:13px;padding:6px 16px;box-shadow:none;color:#5a3d00;margin-top:10px;border-radius:6px}
+.btn-cta.sm{font-size:13px;padding:6px 16px;box-shadow:0 4px 10px -3px rgba(224,166,66,.55),0 1px 2px rgba(120,80,0,.12);color:#5a3d00;margin-top:10px;border-radius:6px;transition:transform .1s,box-shadow .15s}
+.btn-cta.sm:hover{box-shadow:0 6px 14px -4px rgba(224,166,66,.7),0 1px 2px rgba(120,80,0,.15)}
+.btn-cta.sm:active{transform:translateY(1px);box-shadow:0 1px 3px rgba(224,166,66,.5)}
 
 /* Tombol lewati: di samping tombol masuk, tetap terlihat saat tombol masuk belum muncul */
 .w-skip{flex-shrink:0;display:inline-flex;align-items:center;padding:0 20px;border-radius:10px;background:rgba(255,255,255,.9);border:2px solid #f0d89c;
@@ -157,15 +159,14 @@ select option{color:var(--ink);background:#fff}
 .cta{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .cta h3{font-size:14px;line-height:1.3}
 /* Hover/fokus kartu chat: memberi tahu pengguna bahwa ada fitur ngobrol dengan Hanoman */
-.cta{position:relative;cursor:pointer;transition:transform .25s cubic-bezier(.2,.9,.3,1.2),box-shadow .25s,border-color .25s}
+.cta{position:relative;transition:box-shadow .25s,border-color .25s}
 .cta::after{content:"Yuk ngobrol!";position:absolute;top:-16px;right:20px;z-index:2;padding:6px 13px;border-radius:14px 14px 14px 3px;
   background:var(--cta);color:#5a3d00;font-size:12px;font-weight:800;box-shadow:0 8px 16px -8px rgba(160,100,0,.6);
   opacity:0;transform:translateY(10px) scale(.7);transform-origin:left bottom;pointer-events:none;transition:opacity .2s,transform .3s cubic-bezier(.2,.9,.3,1.4)}
-.cta:hover,.cta:focus-within{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 18px 34px -18px rgba(217,160,47,.75),0 0 0 4px rgba(253,195,92,.25)}
+.cta:hover,.cta:focus-within{border-color:var(--gold);box-shadow:0 18px 34px -18px rgba(217,160,47,.75),0 0 0 4px rgba(253,195,92,.25)}
 .cta:hover::after,.cta:focus-within::after{opacity:1;transform:none;animation:nudge 1.4s ease-in-out .3s infinite}
 .cta:hover .btn-cta.sm,.cta:focus-within .btn-cta.sm{animation:ring 1.3s ease-out infinite}
 .cta:hover .slides,.cta:focus-within .slides{animation:waggle .7s ease-in-out infinite}
-.cta:active{transform:translateY(-1px) scale(.99)}
 @keyframes nudge{0%,100%{translate:0 0}50%{translate:0 -4px}}
 @keyframes ring{0%{box-shadow:0 0 0 0 rgba(253,195,92,.8)}100%{box-shadow:0 0 0 12px rgba(253,195,92,0)}}
 @keyframes waggle{0%,100%{rotate:0deg}25%{rotate:-7deg}75%{rotate:7deg}}
