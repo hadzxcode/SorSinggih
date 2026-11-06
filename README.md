@@ -55,18 +55,7 @@ Pengguna: anak muda Bali, pendatang dan pekerja di Bali, serta guru bahasa Bali.
 - Pemanggilan AI hanya terjadi di server (`server.js`), kunci API tidak pernah dikirim ke browser
 
 ## Architecture / Data Flow
-```
-User -> Frontend (HTML, CSS, JavaScript + localStorage)
-     -> Backend (Node.js + Express: /api/ubah, /api/pahami, /api/koreksi, /api/scan)
-     -> Google Gemini API -> Result (JSON) -> Frontend -> User
-```
-1. User mengisi input (teks, suara, atau foto) dan memilih lawan bicara di Frontend.
-2. Frontend mengirim permintaan ke endpoint Backend yang sesuai: `/api/ubah` (Indo ke Bali),
-   `/api/pahami` (Bali ke Indo), `/api/koreksi` (koreksi kalimat), dan `/api/scan` (terjemah kamera).
-3. Backend (Node.js + Express) menyusun prompt dan memanggil Google Gemini API. Kunci API hanya ada di server.
-4. Gemini mengembalikan Result (JSON) berisi hasil, alasan, dan rincian kata.
-5. Frontend menampilkan hasil ke User. Akun dan progres belajar disimpan di localStorage browser.
-
+Browser -> Express (/api/ubah, /api/pahami, /api/koreksi) -> Gemini API -> JSON -> Browser
 Kalimat pengguna tidak disimpan di server.
 
 ## Installation / Run Instructions
@@ -94,6 +83,11 @@ Tidak diperlukan akun demo khusus. Akun dibuat langsung di aplikasi dan hanya te
 - Font: Plus Jakarta Sans (Google Fonts, lisensi OFL)
 - Layanan: Google Gemini API
 - Detail lengkap: lihat [DISCLOSURE.md](DISCLOSURE.md)
+
+## Team Members
+- Jihad Al Qudsi: Developer
+- Ali Akbar Jendral Nusantara: UI/UX
+- Razzan Ichlasul Amal: Project Manager
 
 ## Team Members
 - Jihad Al Qudsi: Developer
