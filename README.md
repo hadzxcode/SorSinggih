@@ -69,7 +69,7 @@ User -> Frontend (HTML, CSS, JavaScript + localStorage)
 
 Kalimat pengguna tidak disimpan di server.
 
-## Run Instructions
+## Installation / Run Instructions
 1. Pasang Node.js versi 18 atau lebih baru
 2. `npm install`
 3. Salin `.env.example` menjadi `.env`, isi `GEMINI_API_KEY`
@@ -79,10 +79,8 @@ Kalimat pengguna tidak disimpan di server.
 ## Deployment URL
 https://sorsinggih.vercel.app/
 
-## Team Members
-- Jihad Al Qudsi: Developer
-- Ali Akbar Jendral Nusantara: UI/UX
-- Razzan Ichlasul Amal: Project Manager
+## Demo Account
+Tidak diperlukan akun demo khusus. Akun dibuat langsung di aplikasi dan hanya tersimpan di browser (localStorage).
 
 ## Known Limitations
 - Hasil AI dapat keliru dan belum divalidasi penutur asli
@@ -96,3 +94,8 @@ https://sorsinggih.vercel.app/
 - Font: Plus Jakarta Sans (Google Fonts, lisensi OFL)
 - Layanan: Google Gemini API
 - Detail lengkap: lihat [DISCLOSURE.md](DISCLOSURE.md)
+
+## Team Members
+- Jihad Al Qudsi: Developer
+- Ali Akbar Jendral Nusantara: UI/UX
+- Razzan Ichlasul Amal: Project Manager
