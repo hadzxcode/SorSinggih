@@ -40,6 +40,11 @@ img{max-width:100%}
   font-size:15px;font-weight:700;color:#8a5d00;transition:background .15s,transform .1s}
 .w-skip:hover{background:#fff8e8}
 .w-skip:active{transform:scale(.96)}
+/* Mobile: selama tombol utama belum muncul, Lewati melebar penuh dan tombol yang tersembunyi tidak ikut memakan ruang */
+@media (max-width:899px){
+  .welcome .w-actions:has(.btn-cta.invis) .btn-cta{display:none}
+  .welcome .w-actions:has(.btn-cta.invis) .w-skip{flex:1;justify-content:center;min-height:50px;background:rgba(255,255,255,.75);border-color:#f3e3b8;font-size:14px;font-weight:600}
+}
 
 /* Teks dan ilustrasi Hanoman tidak bisa diseleksi, disalin, atau diseret */
 .welcome,.w-float,.bubble,.cta,.slides,.chat-head,.msg.ai,.about-top,.k-next,img{
