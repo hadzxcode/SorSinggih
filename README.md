@@ -55,8 +55,7 @@ Pengguna: anak muda Bali, pendatang dan pekerja di Bali, serta guru bahasa Bali.
 - Pemanggilan AI hanya terjadi di server (`server.js`), kunci API tidak pernah dikirim ke browser
 
 ## Architecture / Data Flow
-Browser -> Express (/api/ubah, /api/pahami, /api/koreksi) -> Gemini API -> JSON -> Browser
-Kalimat pengguna tidak disimpan di server.
+![Technical Architecture](./docs/architecture.png)
 
 ## Installation / Run Instructions
 1. Pasang Node.js versi 18 atau lebih baru
@@ -83,11 +82,6 @@ Tidak diperlukan akun demo khusus. Akun dibuat langsung di aplikasi dan hanya te
 - Font: Plus Jakarta Sans (Google Fonts, lisensi OFL)
 - Layanan: Google Gemini API
 - Detail lengkap: lihat [DISCLOSURE.md](DISCLOSURE.md)
-
-## Team Members
-- Jihad Al Qudsi: Developer
-- Ali Akbar Jendral Nusantara: UI/UX
-- Razzan Ichlasul Amal: Project Manager
 
 ## Team Members
 - Jihad Al Qudsi: Developer
