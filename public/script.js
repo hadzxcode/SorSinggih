@@ -1,4 +1,9 @@
-// SorSinggih - script.js (UI baru). Fitur aktif: terjemahan (Indo<->Bali), input suara, kamera AI scan, chat dengan Hanoman.
+// =====================================================================
+// SorSinggih - script.js (logika aplikasi)
+// Urutan file: 1) Alat bantu  2) Layar pembuka  3) Lawan bicara  4) Panel input (teks/suara/kamera)
+//              5) Terjemahan  6) Kosa kata  7) Sesi chat Hanoman  8) Slideshow Hanoman
+// Data yang sering diubah (kosa kata, tombol, teks pembuka) ada di data-ui.js, dimuat lebih dulu.
+// =====================================================================
 const $ = (id) => document.getElementById(id);
 const FALLBACK_IMG = 'img/hanoman-head.png'; // dipakai bila aset maskot belum ada
 
@@ -37,11 +42,7 @@ function pindah(dari, ke, arah) {
 }
 
 // ---------- Welcome
-const LANGKAH = [
-    { t: 'Om Swastiastu! Selamat datang di SorSinggih. Yuk, belajar bahasa Bali bersama!', img: 'wave', btn: null },
-    { t: 'Udah siap belum? buat belajar', img: 'wave', btn: 'Ayoo mulai' },
-    { t: 'yukkk gasss keuuuuunnnn......', img: 'cheer', btn: 'Langsung masuk' }
-];
+
 let wi = 0, wTimer;
 let wTok = 0;
 const caret = Object.assign(document.createElement('span'), { className: 'caret' });
@@ -102,10 +103,7 @@ document.addEventListener('contextmenu', (e) => { if (e.target.closest && e.targ
 document.addEventListener('dragstart', (e) => { if (e.target.tagName === 'IMG') e.preventDefault(); });
 
 // ---------- Pilihan lawan bicara (nilai harus sama dengan kunci PANDUAN_TINGKAT di server.js)
-const ROLES = [
-    { v: 'Guru/Dosen', ik: 'cap' }, { v: 'Orang Tua', ik: 'users' },
-    { v: 'Pemuka Agama', ik: 'hands' }, { v: 'Teman Sebaya', ik: 'group' }
-];
+
 let lawan = 'Guru/Dosen';
 ['roles-main', 'roles-sess'].forEach((id) => {
     $(id).innerHTML = ROLES.map((r) =>
@@ -175,11 +173,7 @@ $('btn-shutter').addEventListener('click', () => {
 });
 
 // ---------- Terjemahan
-const ARAH = {
-    ubah: { api: '/api/ubah', ph: 'Type This way when you wanna translate to bahasa bali', badge: 'Hasil Terjemahan', kosong: 'Ketik atau ucapkan kalimat dulu ya!' },
-    pahami: { api: '/api/pahami', ph: 'Tulis kalimat bahasa Bali yang ingin kamu pahami', badge: 'Arti dalam Indonesia', kosong: 'Tulis kalimat bahasa Bali dulu ya!' },
-    scan: { api: '/api/scan', badge: 'Hasil Scan' }
-};
+
 const roles = $('roles-main');
 function setArah() {
     const a = ARAH[$('arah').value];
@@ -206,7 +200,7 @@ function tampilHasil(mode, d) {
         : (d.tingkatTerdeteksi ? 'Tingkat tutur: ' + d.tingkatTerdeteksi + '. ' : '') + (d.penjelasan || '');
     const list = $('r-list'); list.replaceChildren();
     (Array.isArray(d.pilihanKata) ? d.pilihanKata : []).slice(0, 5).forEach((k) => {
-        const [a, b] = mode === 'ubah' ? [k.bali, k.indo] : [k.bali, k.indo];
+        const [a, b] = [k.bali, k.indo];
         list.appendChild(baris(String(a), String(k.tingkat || ''), String(b || '')));
     });
     $('hasil').classList.remove('hidden');
@@ -258,12 +252,10 @@ $('btn-kirim').addEventListener('click', kirim);
 // HP/tablet (layar sentuh): Enter tetap baris baru, kirim lewat tombol.
 const layarSentuh = window.matchMedia('(pointer: coarse)').matches;
 $('kalimat').addEventListener('keydown', (e) => {
-  if (e.key !== 'Enter') return;
-  if (e.isComposing) return;
-  if (e.shiftKey) return;
-  if (layarSentuh && !e.ctrlKey && !e.metaKey) return;
-  e.preventDefault();
-  kirim();
+    if (e.key !== 'Enter' || e.isComposing || e.shiftKey) return;
+    if (layarSentuh && !e.ctrlKey && !e.metaKey) return;
+    e.preventDefault();
+    kirim();
 });
 $('btn-salin').addEventListener('click', () => {
     const t = $('r-teks').textContent;
@@ -290,126 +282,16 @@ $('c-mic').addEventListener('click', () => {
     r.start();
 });
 
-// ---------- Kosa Kata (format: lumrah/alus; data contoh, tim Riset/validator perlu memeriksa dan menambah)
-const KATA = [
-    { indo: 'Makan Nasi', bali: 'Naar/Medar' },
-    { indo: 'Berjalan', bali: 'Mejalan/Mamargi' },
-    { indo: 'Tidur', bali: 'Pules/Mapeluasan' },
-    { indo: 'Pergi', bali: 'Kema/Lunga' },
-    { indo: 'Datang', bali: 'Teka/Rauh' },
-    { indo: 'Duduk', bali: 'Negak/Malinggih' },
-    { indo: 'Melihat', bali: 'Ningalin/Ngaksi' },
-    { indo: 'Berbicara', bali: 'Ngomong/Mabaos' },
-    { indo: 'Minum', bali: 'Nginem/Ngunjuk' },
-    { indo: 'Mandi', bali: 'Mandus/Masiram' },
-    { indo: 'Pulang', bali: 'Mulih/Mantuk' },
-    { indo: 'Nama', bali: 'Adan/Wasta' },
-    { indo: 'Rumah', bali: 'Umah/Griya' },
-    { indo: 'Anak', bali: 'Pianak/Putra' },
-    { indo: 'Sakit', bali: 'Sakit/Gerah' },
-    { indo: 'Terima Kasih', bali: 'Suksma/Matur Suksma' },
-    { indo: 'Memberi', bali: 'Ngemang/Ngicen' },
-    { indo: 'Mendengar', bali: 'Ningeh/Miragi' },
-    { indo: 'Saya', bali: 'Icang/Titiang' },
-    { indo: 'Air', bali: 'Yeh/Toya' }
-];
+// ---------- Kosa Kata (data contoh; tim Riset perlu memvalidasi dan menambah)
+
 let ki = 0;
 function tampilKata() { $('k-indo').textContent = KATA[ki].indo; $('k-bali').textContent = KATA[ki].bali; }
-// Animasi membalik halaman dengan lekukan. Lembar lama (salinan isi kartu) dikelupas dari pojok kiri atas ke arah kanan (selalu sama).
-// Kertas yang terangkat membentuk gulungan silinder di garis lipat (.k-roll) lalu menjadi sisi belakang hitam yang
-// menutupi lembar lama (.k-flap). Kata baru sudah terpasang di bawahnya. Semua dihitung per frame dalam piksel.
-let kSibuk = false;
-// Memotong poligon dengan setengah bidang f(p) >= 0 (Sutherland-Hodgman)
-function potong(poly, f) {
-    const out = [];
-    poly.forEach((a, i) => {
-        const b = poly[(i + 1) % poly.length], fa = f(a), fb = f(b);
-        if (fa >= 0) out.push(a);
-        if ((fa >= 0) !== (fb >= 0)) { const t = fa / (fa - fb); out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]); }
-    });
-    return out;
-}
-// Menambah titik di sepanjang sisi poligon supaya pemetaan yang tidak linear menghasilkan tepi yang melengkung
-function rapat(poly, k) {
-    const out = [];
-    poly.forEach((a, i) => {
-        const b = poly[(i + 1) % poly.length];
-        for (let j = 0; j < k; j++) out.push([a[0] + (b[0] - a[0]) * j / k, a[1] + (b[1] - a[1]) * j / k]);
-    });
-    return out;
-}
-// Bentuk pada kemajuan t (0..1). Pojok kanan atas "dipegang" lalu ditarik ke kiri-bawah ke titik M; garis lipat adalah garis
-// tengah tegak lurus antara pojok asal C dan M, sehingga sudutnya berputar. Jarak d = kedalaman dari garis lipat ke sisi yang terkelupas.
-// Kertas dimodelkan menggulung pada silinder berjari-jari R_GULUNG:
-//   d < pi*R/2          -> gulungan (roll), posisi geser = d - R*sin(d/R)
-//   d >= pi*R           -> sisi belakang datar (flap), posisi geser = 2d - pi*R
-function bentukKupas(W, H, t) {
-    const kotak = [[0, 0], [W, 0], [W, H], [0, H]], R_GULUNG = 22;
-    if (t <= 0.0001) return { K: kotak, G: [], F: [] };
-    const C = [W, 0], M = [W - t * 2.3 * W, t * 0.5 * H];
-    const dx = M[0] - C[0], dy = M[1] - C[1], len = Math.hypot(dx, dy), n = [dx / len, dy / len];
-    const mid = [(C[0] + M[0]) / 2, (C[1] + M[1]) / 2];
-    const u = (p) => (p[0] - mid[0]) * n[0] + (p[1] - mid[1]) * n[1];   // >= 0: sisi yang tetap
-    const d = (p) => -u(p);
-    const K = potong(kotak, u);
-    const terkelupas = potong(kotak, d);
-    const geser = (p, g) => [p[0] + g * n[0], p[1] + g * n[1]];
-    const G = rapat(potong(terkelupas, (p) => Math.PI * R_GULUNG / 2 - d(p)), 10)
-        .map((p) => geser(p, d(p) - R_GULUNG * Math.sin(Math.max(0, d(p)) / R_GULUNG)));
-    const F = potong(terkelupas, (p) => d(p) - Math.PI * R_GULUNG + 3).map((p) => geser(p, 2 * d(p) - Math.PI * R_GULUNG));
-    return { K, G, F, mid, n, D: len / 2, R: R_GULUNG };
-}
-const klip = (poly, W, kiri) => poly.length < 3 ? 'polygon(0 0,0 0,0 0)'
-    : 'polygon(' + poly.map(([x, y]) => (kiri ? W - x : x).toFixed(1) + 'px ' + y.toFixed(1) + 'px').join(',') + ')';
+// Ganti kata: animasi fade sederhana (ringan untuk HP/laptop lama)
 $('k-next').addEventListener('click', () => {
-    if (kSibuk) return;                       // abaikan klik beruntun selama animasi berjalan
-    kSibuk = true;
-    const kartu = document.querySelector('.kosa'), tombol = $('k-next');
-    ulang(tombol, 'spin');
-    const ganti = () => { ki = (ki + 1) % KATA.length; tampilKata(); };
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { ganti(); kSibuk = false; return; }
-
-    // 1) potret halaman lama + lapisan flap
-    const kiri = true;   // selalu dikupas dari pojok kiri atas, ditarik ke kanan
-    const wadah = document.createElement('div'), lembar = document.createElement('div'), gulung = document.createElement('div'), flap = document.createElement('div');
-    wadah.className = 'k-peel' + (kiri ? ' kiri' : ''); wadah.setAttribute('aria-hidden', 'true');
-    lembar.className = 'k-sheet'; gulung.className = 'k-roll'; flap.className = 'k-flap';
-    [...kartu.children].forEach((c) => {
-        if (c === tombol) return;
-        const salin = c.cloneNode(true); salin.removeAttribute('id'); lembar.appendChild(salin);
-    });
-    wadah.append(lembar, gulung, flap); kartu.appendChild(wadah);
-    // 2) halaman baru dipasang di bawah lembar lama
-    ganti();
-    // 3) kupas lembar lama per frame
-    const W = kartu.clientWidth, H = kartu.clientHeight, DUR = 620;
-    const ease = (t) => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-    const gambar = (t) => {
-        const { K, G, F, mid, n, D, R } = bentukKupas(W, H, t);
-        lembar.style.clipPath = klip(K, W, kiri);
-        gulung.style.visibility = G.length < 3 ? 'hidden' : 'visible';
-        gulung.style.clipPath = klip(G, W, kiri);
-        flap.style.visibility = F.length < 3 ? 'hidden' : 'visible';
-        flap.style.clipPath = klip(F, W, kiri);
-        if (G.length < 3 && F.length < 3) return;
-        // Satu gradasi putih untuk gulungan dan flap, searah tegak lurus garis lipat (P = posisi garis lipat):
-        // tepi gulungan agak redup, sorotan putih di punggung silinder, lalu bayangan lembut di lipatan dan terang di sisi belakang
-        const m = kiri ? [W - mid[0], mid[1]] : mid, nn = kiri ? [-n[0], n[1]] : n;
-        const ox = nn[0] > 0 ? 0 : W, oy = nn[1] > 0 ? 0 : H;
-        const P = (m[0] - ox) * nn[0] + (m[1] - oy) * nn[1], sudut = Math.atan2(nn[0], -nn[1]) * 180 / Math.PI;
-        const px = (v) => (P + v).toFixed(1) + 'px';
-        const bg = 'linear-gradient(' + sudut.toFixed(2) + 'deg,#dcdcdc ' + px(-R) + ',#ffffff ' + px(-R * .55) + ',#f2f2f2 ' + px(-R * .1) +
-            ',#e6e6e6 ' + px(R * .2) + ',#fafafa ' + px(D * .45) + ',#f5f5f5 ' + px(D) + ')';
-        gulung.style.background = bg; flap.style.background = bg;
-    };
-    gambar(0);
-    const t0 = performance.now();
-    const frame = (now) => {
-        const t = Math.min(1, (now - t0) / DUR);
-        gambar(ease(t));
-        if (t < 1) requestAnimationFrame(frame); else { wadah.remove(); kSibuk = false; }
-    };
-    requestAnimationFrame(frame);
+    ki = (ki + 1) % KATA.length;
+    tampilKata();
+    ulang($('k-next'), 'spin');
+    ulang(document.querySelector('.kosa'), 'flip');
 });
 tampilKata();
 
@@ -482,8 +364,7 @@ $('s-mic').addEventListener('click', () => {
 // ---------- Slideshow ekspresi Hanoman: SATU gambar, ekspresinya berganti bergantian
 // (gaya ditulis di sini supaya tidak bergantung pada style.css)
 (function () {
-    const urut = ['hanoman-head.png', 'hanoman-wajah-senang.png', 'hanoman-wajah-kedip.png',
-                  'hanoman-wajah-bingung.png', 'hanoman-hallo.png', 'hanoman-samping.png'];
+    const urut = URUTAN_EKSPRESI; // daftar gambar ada di data-ui.js
     const DURASI = 1000, FADE = 120;  // ganti ekspresi tiap 1 detik
     const wadah = $('slides');
     const ukuran = 'clamp(96px,14vw,132px)';
