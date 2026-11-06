@@ -290,10 +290,28 @@ $('c-mic').addEventListener('click', () => {
     r.start();
 });
 
-// ---------- Kosa Kata (data contoh; tim Riset perlu memvalidasi dan menambah)
+// ---------- Kosa Kata (format: lumrah/alus; data contoh, tim Riset/validator perlu memeriksa dan menambah)
 const KATA = [
-    { indo: 'Makan Nasi', bali: 'Medar/Naar' },
-    { indo: 'Berjalan', bali: 'Mejalan/Mamargi' }
+    { indo: 'Makan Nasi', bali: 'Naar/Medar' },
+    { indo: 'Berjalan', bali: 'Mejalan/Mamargi' },
+    { indo: 'Tidur', bali: 'Pules/Mapeluasan' },
+    { indo: 'Pergi', bali: 'Kema/Lunga' },
+    { indo: 'Datang', bali: 'Teka/Rauh' },
+    { indo: 'Duduk', bali: 'Negak/Malinggih' },
+    { indo: 'Melihat', bali: 'Ningalin/Ngaksi' },
+    { indo: 'Berbicara', bali: 'Ngomong/Mabaos' },
+    { indo: 'Minum', bali: 'Nginem/Ngunjuk' },
+    { indo: 'Mandi', bali: 'Mandus/Masiram' },
+    { indo: 'Pulang', bali: 'Mulih/Mantuk' },
+    { indo: 'Nama', bali: 'Adan/Wasta' },
+    { indo: 'Rumah', bali: 'Umah/Griya' },
+    { indo: 'Anak', bali: 'Pianak/Putra' },
+    { indo: 'Sakit', bali: 'Sakit/Gerah' },
+    { indo: 'Terima Kasih', bali: 'Suksma/Matur Suksma' },
+    { indo: 'Memberi', bali: 'Ngemang/Ngicen' },
+    { indo: 'Mendengar', bali: 'Ningeh/Miragi' },
+    { indo: 'Saya', bali: 'Icang/Titiang' },
+    { indo: 'Air', bali: 'Yeh/Toya' }
 ];
 let ki = 0;
 function tampilKata() { $('k-indo').textContent = KATA[ki].indo; $('k-bali').textContent = KATA[ki].bali; }
