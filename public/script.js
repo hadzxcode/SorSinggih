@@ -130,7 +130,10 @@ function setMode(m) {
     if (m === 'camera') bukaKamera(); else tutupKamera();
 }
 $('c-back').addEventListener('click', () => setMode('text'));
-$('c-cam').addEventListener('click', () => setMode('camera'));
+$('c-cam').addEventListener('click', () => {
+    if (panel.classList.contains('snap')) { hapusSnap(); bukaKamera(); return; }   // foto ditahan -> ambil ulang
+    setMode('camera');
+});
 
 // ---------- Kamera (getUserMedia) + scan
 let camStream = null, camBuka = false;
@@ -146,10 +149,14 @@ async function bukaKamera() {
         setMode('text'); toast('Kamera tidak bisa dibuka. Pastikan izin kamera aktif.');
     } finally { camBuka = false; }
 }
-function tutupKamera() {
+function stopStream() {
     if (camStream) camStream.getTracks().forEach((t) => t.stop());
     camStream = null; $('cam-video').srcObject = null;
 }
+function hapusSnap() {
+    panel.classList.remove('snap'); $('cam-snap').removeAttribute('src');
+}
+function tutupKamera() { stopStream(); hapusSnap(); }   // dipanggil saat keluar mode kamera (Back)
 $('btn-shutter').addEventListener('click', () => {
     const v = $('cam-video');
     if (!camStream || !v.videoWidth) return toast('Kamera belum siap.');
@@ -158,8 +165,11 @@ $('btn-shutter').addEventListener('click', () => {
     const c = document.createElement('canvas');
     c.width = Math.round(v.videoWidth * skala); c.height = Math.round(v.videoHeight * skala);
     c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
-    const gambar = c.toDataURL('image/jpeg', 0.7).split(',')[1];
-    setMode('text');                                   // menutup kamera
+    const dataUrl = c.toDataURL('image/jpeg', 0.7);
+    const gambar = dataUrl.split(',')[1];
+    $('cam-snap').src = dataUrl;                       // tahan foto di layar
+    panel.classList.add('snap');
+    stopStream();                                      // kamera mati, tapi mode kamera tetap aktif
     panggil('scan', { gambar, lawanBicara: lawan });
 });
 
