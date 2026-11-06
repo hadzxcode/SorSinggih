@@ -393,8 +393,6 @@ function bukaSesi(buka) {
     pindah($(buka ? 'view-main' : 'view-session'), $(buka ? 'view-session' : 'view-main'), buka ? 'maju' : 'mundur');
 }
 $('btn-sesi').addEventListener('click', () => bukaSesi(true));
-// Seluruh kartu bisa diklik, bukan hanya tombol (pindah() sudah menolak panggilan ganda)
-document.querySelector('.cta').addEventListener('click', () => bukaSesi(true));
 $('s-back').addEventListener('click', () => bukaSesi(false));
 
 // ---------- Chat dengan Hanoman
