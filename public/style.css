@@ -211,7 +211,16 @@ details p{background:var(--card);padding:12px 14px;border-radius:0 0 8px 8px;fon
 .msg small{display:block;margin-top:4px;font-size:12px;font-weight:500;opacity:.9}
 .pill-btn.rec{background:var(--gold);color:#fff}
 .chat-input{display:flex;gap:10px;align-items:center}
-.chat-input input{flex:1;height:38px;border:0;border-radius:6px;background:#dcdcdc;padding:0 12px;font-size:13px}
+.chat-input input{flex:1;height:46px;border:2px solid var(--bd);border-radius:23px;background:#fff;color:var(--ink);padding:0 18px;font-size:14px;outline:0;transition:border-color .2s,box-shadow .2s}
+.chat-input input::placeholder{color:#b9b3b4}
+.chat-input input:hover{border-color:#dccfd2}
+.chat-input input:focus,.chat-input input:focus-visible{outline:0;border-color:rgba(217,160,47,.55);box-shadow:0 0 0 3px rgba(217,160,47,.12)}
+.chat-input .pill-btn{height:46px;min-width:46px;border-radius:23px;transition:transform .1s,background .15s,box-shadow .15s}
+.chat-input .pill-btn .ic{width:20px;height:20px}
+.chat-input #s-kirim{background:var(--cta);color:#5a3d00;box-shadow:0 4px 10px -3px rgba(224,166,66,.55)}
+.chat-input #s-kirim:hover{box-shadow:0 6px 14px -4px rgba(224,166,66,.7)}
+.chat-input .pill-btn:active{transform:scale(.94)}
+.chat-input #s-kirim:disabled{opacity:.6;cursor:wait}
 
 /* ---------- Toast ---------- */
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;max-width:90vw;z-index:50}
