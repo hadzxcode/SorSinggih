@@ -254,7 +254,17 @@ async function panggil(mode, body) {
     }
 }
 $('btn-kirim').addEventListener('click', kirim);
-$('kalimat').addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) kirim(); });
+// Desktop/laptop: Enter = kirim, Shift+Enter = baris baru.
+// HP/tablet (layar sentuh): Enter tetap baris baru, kirim lewat tombol.
+const layarSentuh = window.matchMedia('(pointer: coarse)').matches;
+$('kalimat').addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter') return;
+  if (e.isComposing) return;
+  if (e.shiftKey) return;
+  if (layarSentuh && !e.ctrlKey && !e.metaKey) return;
+  e.preventDefault();
+  kirim();
+});
 $('btn-salin').addEventListener('click', () => {
     const t = $('r-teks').textContent;
     if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => toast('Hasil disalin.'), () => toast('Gagal menyalin.'));
@@ -393,6 +403,8 @@ function bukaSesi(buka) {
     pindah($(buka ? 'view-main' : 'view-session'), $(buka ? 'view-session' : 'view-main'), buka ? 'maju' : 'mundur');
 }
 $('btn-sesi').addEventListener('click', () => bukaSesi(true));
+// Seluruh kartu bisa diklik, bukan hanya tombol (pindah() sudah menolak panggilan ganda)
+document.querySelector('.cta').addEventListener('click', () => bukaSesi(true));
 $('s-back').addEventListener('click', () => bukaSesi(false));
 
 // ---------- Chat dengan Hanoman
