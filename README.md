@@ -45,7 +45,7 @@ Pengguna: anak muda Bali, pendatang dan pekerja di Bali, serta guru bahasa Bali.
 - Frontend: HTML, CSS, JavaScript (tanpa framework)
 - Backend: Node.js dengan Express
 - Database: belum ada. Akun dan progres belajar disimpan di localStorage browser
-- Hosting: [Vercel / isi setelah deploy]
+- Hosting: [Vercel]
 
 ## AI Implementation
 - Model: Google Gemini (`gemini-3.5-flash-lite`) lewat `@google/generative-ai`
@@ -84,5 +84,4 @@ https://sorsinggih.vercel.app/
 - Library: express, cors, dotenv, @google/generative-ai
 - Font: Plus Jakarta Sans (Google Fonts, lisensi OFL)
 - Layanan: Google Gemini API
-- Maskot (mascot.svg): [isi pembuat dan lisensinya]
 - Detail lengkap: lihat [DISCLOSURE.md](DISCLOSURE.md)
