@@ -64,7 +64,9 @@ main>section{margin-bottom:16px}
 /* ---------- Panel ---------- */
 .panel{padding:16px}
 .greet{font-size:12px;font-weight:700;margin-bottom:10px}
-.field{border:2px solid var(--bd);border-radius:10px;padding:10px}
+.field{border:2px solid var(--bd);border-radius:10px;padding:10px;transition:border-color .2s,box-shadow .2s}
+/* Saat textarea diklik atau fokus, border berubah jadi emas dengan opacity dikurangi */
+.field:focus-within{border-color:rgba(217,160,47,.55);box-shadow:0 0 0 3px rgba(217,160,47,.12)}
 textarea{width:100%;border:0;outline:0;resize:none;font-size:14px;background:transparent;color:var(--ink)}
 textarea::placeholder{color:#c9c3c4}
 textarea{padding:6px 8px}
