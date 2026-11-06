@@ -17,15 +17,29 @@ Pengguna: anak muda Bali, pendatang dan pekerja di Bali, serta guru bahasa Bali.
 - Jalur Belajar: kosakata, latihan bicara, bacaan
 - Hadiah harian, streak, dan lencana
 
-     ![Beranda](./docs/beranda.png)
-     ![Belajar - Sebelum Login](./docs/belajar_whitout_login.png)
-     ![Chat AI - Indonesia -> Bali](./docs/chatAI_1.png)
-     ![Chat AI - Bali -> Indonesia](./docs/chatAI_2.png)
-     ![Chat AI - Koreksi](./docs/chatAI_3.png)
-     ![Hadiah](./docs/hadiah_without_login.png)
-     ![Profil](./docs/profil_without_login.png)
-     ![Setelan](./docs/setelan.png)
-     ![Tentang](./docs/tentang.png)
+## Screenshots
+
+### Tampilan Desktop
+| Welcome | Welcome 2 | Beranda |
+|:---:|:---:|:---:|
+| ![Welcome](./docs/welcome.png) | ![Welcome 2](./docs/welcome2.png) | ![Beranda](./docs/home.png) |
+
+| Terjemah Teks | Terjemah Suara | Terjemah Kamera |
+|:---:|:---:|:---:|
+| ![Terjemah Teks](./docs/translate-text.png) | ![Terjemah Suara](./docs/translate-microphone.png) | ![Terjemah Kamera](./docs/translate-kamera.png) |
+
+| Chat AI | FAQ |
+|:---:|:---:|
+| ![Chat AI](./docs/chat-ai.png) | ![FAQ](./docs/FAQ.png) |
+
+### Tampilan Mobile
+| Welcome | Welcome 2 | Beranda |
+|:---:|:---:|:---:|
+| ![Welcome Mobile](./docs/welcome-mobile.png) | ![Welcome 2 Mobile](./docs/welcome2-mobile.png) | ![Beranda Mobile](./docs/home-mobile.png) |
+
+| Terjemah Teks | Terjemah Suara | Terjemah Kamera | Chat AI |
+|:---:|:---:|:---:|:---:|
+| ![Terjemah Teks Mobile](./docs/translate-text-mobile.png) | ![Terjemah Suara Mobile](./docs/translate-microphone-mobile.png) | ![Terjemah Kamera Mobile](./docs/translate-kamera-mobile.png) | ![Chat AI Mobile](./docs/chat-ai-mobile.png) |
 
 ## Tech Stack
 - Frontend: HTML, CSS, JavaScript (tanpa framework)
