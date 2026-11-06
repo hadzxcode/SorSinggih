@@ -125,13 +125,14 @@ setLawan(lawan);
 // ---------- Mode panel: text | voice | camera
 const panel = $('panel');
 function setMode(m) {
+    if (panel.dataset.mode !== m) resetHasil();     // pindah kamera/suara/teks -> hasil lama hilang
     panel.dataset.mode = m;
     if (m !== 'voice' && rekam) rekam.abort();
     if (m === 'camera') bukaKamera(); else tutupKamera();
 }
 $('c-back').addEventListener('click', () => setMode('text'));
 $('c-cam').addEventListener('click', () => {
-    if (panel.classList.contains('snap')) { hapusSnap(); bukaKamera(); return; }   // foto ditahan -> ambil ulang
+    if (panel.classList.contains('snap')) { resetHasil(); hapusSnap(); bukaKamera(); return; }   // foto ditahan -> ambil ulang
     setMode('camera');
 });
 
@@ -183,7 +184,7 @@ const roles = $('roles-main');
 function setArah() {
     const a = ARAH[$('arah').value];
     $('kalimat').placeholder = a.ph;
-    $('hasil').classList.add('hidden');
+    resetHasil();
     roles.classList.toggle('off', $('arah').value === 'pahami'); // Bali->Indo tidak butuh lawan bicara
 }
 $('arah').addEventListener('change', setArah);
@@ -212,7 +213,15 @@ function tampilHasil(mode, d) {
     $('hasil').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-let sibuk = false;
+let sibuk = false, ctrl = null;
+// Hapus hasil terjemahan dan batalkan request yang masih berjalan
+function resetHasil() {
+    if (ctrl) ctrl.abort();
+    const k = $('hasil');
+    k.classList.remove('memuat'); k.classList.add('hidden');
+    $('r-teks').textContent = ''; $('r-jelas').textContent = '';
+    $('r-list').replaceChildren();
+}
 function kirim() {
     const mode = $('arah').value, kalimat = $('kalimat').value.trim();
     if (!kalimat) return toast(ARAH[mode].kosong);
@@ -226,15 +235,17 @@ async function panggil(mode, body) {
     const kartu = $('hasil'); let tampil = false;
     kartu.classList.add('memuat'); kartu.classList.remove('hidden');
     kartu.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    ctrl = new AbortController();
     try {
         const r = await fetch(ARAH[mode].api, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body), signal: ctrl.signal
         });
         const j = await r.json();
-        if (j.success) { if (mode === 'scan' || mode === $('arah').value) { tampilHasil(mode, j.data); tampil = true; } }
+        if (j.success) { tampilHasil(mode, j.data); tampil = true; }
         else toast(j.error || 'Terjadi kesalahan.');
     } catch (err) {
+        if (err.name === 'AbortError') return;      // sengaja dibatalkan, tanpa toast
         console.error(err); toast('Gagal terhubung ke server. Cek koneksi internetmu.');
     } finally {
         sibuk = false; $('btn-kirim').disabled = false;
@@ -376,6 +387,7 @@ tampilKata();
 
 // ---------- Pindah halaman utama <-> sesi chat
 function bukaSesi(buka) {
+    resetHasil();                                   // masuk atau keluar sesi -> hasil hilang
     if (buka && panel.dataset.mode !== 'text') setMode('text');   // tutup kamera/suara di halaman utama
     if (!buka && rekamChat) rekamChat.abort();
     pindah($(buka ? 'view-main' : 'view-session'), $(buka ? 'view-session' : 'view-main'), buka ? 'maju' : 'mundur');
