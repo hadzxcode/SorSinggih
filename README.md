@@ -11,11 +11,20 @@ bertutur hormat kepada orang yang lebih tua atau pemuka agama.
 Pengguna: anak muda Bali, pendatang dan pekerja di Bali, serta guru bahasa Bali.
 
 ## Key Features
+**Core (berfungsi)**
 - Indo ke Bali sesuai lawan bicara (Guru/Dosen, Orang Tua, Pemuka Agama, Teman Sebaya)
 - Bali ke Indo untuk memahami ucapan orang Bali
 - Koreksi kalimat bahasa Bali buatan pengguna
-- Jalur Belajar: kosakata, latihan bicara, bacaan
-- Hadiah harian, streak, dan lencana
+- Setiap hasil disertai alasan dan rincian kata
+
+**Tambahan (berfungsi)**
+- Translator melalui pesan suara dan scan kamera
+
+**Rencana (belum, roadmap)**
+- Validasi penutur asli
+- Penanda tingkat keyakinan
+- Tombol umpan balik penutur
+- Database dan autentikasi
 
 ## Screenshots
 
